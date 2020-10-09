@@ -1,0 +1,4 @@
+异常处理逻辑：
+抛出异常--->是否拦截异常（@ControllerAdvice和@ExceptionHandler注解）
+                                                                拦截异常--->执行ExceptionHandler注解标记的方法
+                                                                抛出异常--->来到异常页面（如果有指定，则来到指定的异常页面）
