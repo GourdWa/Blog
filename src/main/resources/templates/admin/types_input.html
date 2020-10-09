@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="/admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
@@ -52,7 +53,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++中间内容+++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <div class="m-padded-tb-big m-container-small">
         <div class="ui container">
-            <form action="#" method="post" class="ui form">
+            <form action="#" method="post" class="ui form" th:action="@{/admin/types}">
 
                 <div class="field">
                     <div class="ui left labeled input">
@@ -66,7 +67,7 @@
 
                 <div class="ui right aligned container">
                     <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
-                    <button class="ui teal button">提交</button>
+                    <button class="ui teal submit button">提交</button>
                 </div>
 
             </form>

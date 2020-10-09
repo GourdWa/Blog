@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Zixiang Hu
- * @description
+ * @description mybatis-plus建表用，暂时不用
  * @create 2020-10-05-16:53
  */
 //@Configuration

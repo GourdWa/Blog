@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 /**
  * @author Zixiang Hu
- * @description
+ * @description mybatis-plus根据bean生成表的配置，暂时没用
  * @create 2020-10-05-16:49
  */
 //@Configuration
