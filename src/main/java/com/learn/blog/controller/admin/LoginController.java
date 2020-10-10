@@ -44,6 +44,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam("username") String username, @RequestParam("password") String password,
                         HttpSession httpSession, RedirectAttributes redirectAttributes) {
+
         User user = userService.checkUser(username, password);
         if (user != null) {
             // 将user放入Session

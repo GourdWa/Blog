@@ -25,6 +25,11 @@ public interface TypeService {
     Type getType(Long id);
 
     /**
+     * 通过名称获得Type
+     */
+        Type getTypeByName(String name);
+
+    /**
      * 获得所有类型
      * @param pageable
      * @return

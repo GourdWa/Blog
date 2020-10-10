@@ -3,5 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.learn.blog.dao.TypeMapper">
-
+    <!--Type findByName(String name);-->
+    <select id="findByName" resultType="com.learn.blog.bean.Type">
+        select * from t_type where name=#{name}
+    </select>
 </mapper>

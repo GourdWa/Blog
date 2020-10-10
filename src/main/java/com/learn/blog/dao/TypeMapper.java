@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @create 2020-10-08-20:58
  */
 public interface TypeMapper extends JpaRepository<Type, Long> {
+    Type findByName(String name);
 }

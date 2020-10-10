@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
     <!-- 引入自定义的CSS样式 -->
     <link rel="stylesheet" href="../../static/css/me.css">
-    <title>分类新增</title>
+    <title>分类修改</title>
 </head>
 
 <body>
@@ -53,11 +53,12 @@
     <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++中间内容+++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <div class="m-padded-tb-big m-container-small">
         <div class="ui required container">
-            <form action="#" method="post" class="ui form" th:action="@{/admin/types}">
+            <form action="#" method="post" class="ui form" th:action="@{/admin/types/update}">
                 <div class=" field">
                     <div class="ui left labeled input">
                         <label class="ui teal basic label">名称</label>
-                        <input type="text" name="name" placeholder="分类名称">
+                        <input type="text" name="name" placeholder="分类名称" th:value="${name}">
+                        <input type="hidden" name="id" th:value="${id}">
                     </div>
                 </div>
 
@@ -72,7 +73,7 @@
 
                 <div class="ui right aligned container">
                     <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
-                    <button class="ui teal submit button">提交</button>
+                    <button class="ui teal submit button">修改</button>
                 </div>
 
             </form>

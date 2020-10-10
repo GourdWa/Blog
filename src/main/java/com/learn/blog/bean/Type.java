@@ -1,6 +1,7 @@
 package com.learn.blog.bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Type {
     @Id
     @GeneratedValue
     private Long id;
+    @NotBlank
     private String name;
     //一个类型对应多个博客
     @OneToMany(mappedBy = "type")

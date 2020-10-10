@@ -43,15 +43,23 @@
 <div class="ui attached pointing menu">
     <div class="ui container">
         <div class="right menu">
-            <a href="#" class="item">发布</a>
-            <a href="#" class="teal active item">列表</a>
+            <a href="#" th:href="@{/admin/types/input}" class="item">新增</a>
+            <a href="#" th:href="@{/admin/types}" class="teal active item">列表</a>
         </div>
     </div>
 </div>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++中间内容+++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <div class="m-padded-tb-big m-container-small">
     <div class="ui container">
-
+        <!--消息提示组件-->
+        <!--这种注释，thymeleaf可以识别-->
+        <!--/*/
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}">恭喜，操作成功！</p>
+        </div>
+        /*/-->
         <table class="ui celled table">
             <thead>
             <tr>
@@ -78,7 +86,7 @@
             <tr>
                 <th colspan="6">
                     <!--只有总页数大于1页才会显示上一页下一页，否在不会显示-->
-                    <div class="ui mini pagination menu"  th:if="${page.totalPages}>1">
+                    <div class="ui mini pagination menu" th:if="${page.totalPages}>1">
                         <!--涉及到th:href传参的使用-->
                         <a class=" item" th:href="@{/admin/types(page=${page.number}-1)}"
                            th:unless="${page.first}">上一页</a>
@@ -153,6 +161,8 @@
         on: 'hover'
     });
 
+    // 提示框自动消失
+    $('.message').delay(2000).hide("slow");
 </script>
 </body>
 

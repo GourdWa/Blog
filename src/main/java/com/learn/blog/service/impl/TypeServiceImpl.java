@@ -33,6 +33,16 @@ public class TypeServiceImpl implements TypeService {
         return typeMapper.findById(id).get();
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
+    @Override
+    public Type getTypeByName(String name) {
+        return typeMapper.findByName(name);
+    }
+
     @Transactional
     @Override
     public Page<Type> listType(Pageable pageable) {

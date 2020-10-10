@@ -59,18 +59,18 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.3.2</version>
         </dependency>
-<!--        &lt;!&ndash;创建表的插件&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>-->
-<!--            <artifactId>mybatis-enhance-actable</artifactId>-->
-<!--            <version>1.1.1.RELEASE</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash;druid数据源&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid</artifactId>-->
-<!--            <version>1.1.21</version>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash;创建表的插件&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.gitee.sunchenbin.mybatis.actable</groupId>-->
+        <!--            <artifactId>mybatis-enhance-actable</artifactId>-->
+        <!--            <version>1.1.1.RELEASE</version>-->
+        <!--        </dependency>-->
+        <!--        &lt;!&ndash;druid数据源&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>druid</artifactId>-->
+        <!--            <version>1.1.21</version>-->
+        <!--        </dependency>-->
         <!--        Aspect注解-->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -99,6 +99,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--jpa的依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -107,6 +108,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.1.6.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>
