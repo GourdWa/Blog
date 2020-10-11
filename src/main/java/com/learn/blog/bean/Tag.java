@@ -1,6 +1,7 @@
 package com.learn.blog.bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class Tag {
     @Id
     @GeneratedValue
     private Long id;
+    @NotBlank
     private String name;
 
     @ManyToMany(mappedBy = "tags")

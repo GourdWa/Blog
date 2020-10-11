@@ -42,22 +42,22 @@ public class TypeController {
     @PostMapping("/types")
     public String save(@Valid Type type, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
         type.setName(type.getName().trim());
-        Type byName = typeService.getTypeByName(type.getName());
-        if (byName != null) {
-            model.addAttribute("message", "分类名称已经存在");
-            return "admin/types_input";
-        }
         //如果校验有错误
         if (bindingResult.hasErrors()) {
             //返回之前的页面
             model.addAttribute("message", "提交信息不符合合规则");
             return "admin/types_input";
         }
+        Type byName = typeService.getTypeByName(type.getName());
+        if (byName != null) {
+            model.addAttribute("message", "分类名称已经存在");
+            return "admin/types_input";
+        }
         Type sType = typeService.saveType(type);
         if (sType == null) {
-            redirectAttributes.addFlashAttribute("message", "操作失败");
+            redirectAttributes.addFlashAttribute("message", "分类保存失败");
         } else {
-            redirectAttributes.addFlashAttribute("message", "操作成功");
+            redirectAttributes.addFlashAttribute("message", "分类保存成功");
         }
         //再返回分页列表展示页面
         return "redirect:/admin/types";
@@ -87,33 +87,35 @@ public class TypeController {
      */
     @PostMapping("/types/update")
     public String updateType(@Valid Type type, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
-        //首先判断分类的名称与已经存在的名称是否冲突
-        Type typeByName = typeService.getTypeByName(type.getName().trim());
-        if (typeByName != null && type.getId() != typeByName.getId()) {
-            model.addAttribute("message", "分类名称已经存在");
-            return "admin/types_input";
-        }
         //如果校验有错误
         if (bindingResult.hasErrors()) {
             //返回之前的页面
             model.addAttribute("message", "提交信息不符合合规则");
             return "admin/types_input";
         }
+        Type typeByName = typeService.getTypeByName(type.getName().trim());
+        //判断分类的名称与已经存在的名称是否冲突
+        if (typeByName != null && type.getId() != typeByName.getId()) {
+            model.addAttribute("message", "分类名称已经存在");
+            return "admin/types_input";
+        }
+
         Type sType = typeService.updateType(type.getId(), type);
         if (sType == null) {
-            redirectAttributes.addFlashAttribute("message", "修改失败");
+            redirectAttributes.addFlashAttribute("message", "分类名称修改失败");
         } else {
-            redirectAttributes.addFlashAttribute("message", "修改成功");
+            redirectAttributes.addFlashAttribute("message", "分类名称修改成功");
         }
         return "redirect:/admin/types";
     }
+
     /**
      * 删除逻辑
      */
     @GetMapping("/types/{id}/delete")
-    public String delete(@PathVariable("id")Long id,RedirectAttributes redirectAttributes){
+    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         typeService.deleteType(id);
-        redirectAttributes.addFlashAttribute("message", "删除成功");
+        redirectAttributes.addFlashAttribute("message", "分类删除成功");
         return "redirect:/admin/types";
     }
 
