@@ -4,6 +4,8 @@ import com.learn.blog.bean.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @author Zixiang Hu
  * @description
@@ -30,12 +32,17 @@ public interface TypeService {
         Type getTypeByName(String name);
 
     /**
-     * 获得所有类型
+     * 分页形式，获得所有类型
      * @param pageable
      * @return
      */
     Page<Type> listType(Pageable pageable);
 
+    /**
+     * 获得所有类型
+     * @return
+     */
+    List<Type> list();
     /**
      * 更新类型
      * @param id
