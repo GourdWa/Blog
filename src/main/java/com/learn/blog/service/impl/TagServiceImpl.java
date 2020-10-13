@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by limi on 2017/10/16.
  */
@@ -52,15 +55,37 @@ public class TagServiceImpl implements TagService {
         if (t == null) {
             throw new NotFoundException("不存在该标签");
         }
-        BeanUtils.copyProperties(tag,t);
+        BeanUtils.copyProperties(tag, t);
         return tagMapper.save(t);
     }
-
 
 
     @Transactional
     @Override
     public void deleteTag(Long id) {
         tagMapper.deleteById(id);
+    }
+
+    @Override
+    public List<Tag> list() {
+        return tagMapper.findAll();
+    }
+
+
+    @Override
+    public List<Tag> listTags(String ids) {
+        return tagMapper.findAllById(convertToList(ids));
+    }
+
+    //解析传递过来的ids
+    private List<Long> convertToList(String ids) {
+        List<Long> list = new ArrayList<>();
+        if (ids != null && !"".equals(ids)) {
+            String[] idarray = ids.split(",");
+            for (int i = 0; i < idarray.length; i++) {
+                list.add(new Long(idarray[i]));
+            }
+        }
+        return list;
     }
 }

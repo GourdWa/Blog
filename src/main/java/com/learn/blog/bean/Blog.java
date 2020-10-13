@@ -1,6 +1,7 @@
 package com.learn.blog.bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,15 +16,21 @@ public class Blog {
     @Id
     @GeneratedValue
     private Long id;
-
+    @NotBlank
     private String title;
+    @NotBlank
     private String content;
+    @NotBlank
     private String firstPicture;
+    //原创、转载、翻译
     private String flag;
     private Integer views;
+    //点赞数
+    private Integer goodJob;
     private boolean appreciation;
     private boolean shareStatement;
     private boolean commentabled;
+    //true发布；false保存
     private boolean published;
     private boolean recommend;
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,6 +50,9 @@ public class Blog {
 
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
+    //仅仅是中转用，不会进入数据库
+    @Transient
+    String tagIds;
 
     public Blog() {
     }
@@ -89,6 +99,14 @@ public class Blog {
 
     public Integer getViews() {
         return views;
+    }
+
+    public Integer getGoodJob() {
+        return goodJob;
+    }
+
+    public void setGoodJob(Integer goodJob) {
+        this.goodJob = goodJob;
     }
 
     public void setViews(Integer views) {
@@ -185,6 +203,15 @@ public class Blog {
         this.comments = comments;
     }
 
+
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -194,6 +221,7 @@ public class Blog {
                 ", firstPicture='" + firstPicture + '\'' +
                 ", flag='" + flag + '\'' +
                 ", views=" + views +
+                ", goodJob=" + goodJob +
                 ", appreciation=" + appreciation +
                 ", shareStatement=" + shareStatement +
                 ", commentabled=" + commentabled +
@@ -201,6 +229,11 @@ public class Blog {
                 ", recommend=" + recommend +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", type=" + type +
+                ", tags=" + tags +
+                ", user=" + user +
+                ", comments=" + comments +
+                ", tagIds='" + tagIds + '\'' +
                 '}';
     }
 }

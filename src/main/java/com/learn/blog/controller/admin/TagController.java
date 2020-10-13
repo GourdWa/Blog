@@ -10,12 +10,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -28,6 +26,9 @@ import javax.validation.Valid;
 public class TagController {
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    HttpSession httpSession;
 
     /**
      * 分页列表展示,id倒序,Pageable默认情况下page是0，也就展示第一页的数据
@@ -121,9 +122,8 @@ public class TagController {
      * 删除标签
      */
     @GetMapping("/tags/{id}/delete")
-    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public void delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         tagService.deleteTag(id);
-        redirectAttributes.addFlashAttribute("message", "标签删除成功");
-        return "redirect:/admin/tags";
     }
 }
