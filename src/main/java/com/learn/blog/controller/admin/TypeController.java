@@ -31,7 +31,9 @@ public class TypeController {
      */
     @GetMapping("/types")
     public String list(@PageableDefault(size = 6, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
-                       Model model) {
+                       Model model, @RequestParam(name = "deleteName", required = false) String deleteName) {
+        if (deleteName!=null&&!"".equals(deleteName))
+            model.addAttribute("message", "成功删除【" + deleteName + "】");
         model.addAttribute("page", typeService.listType(pageable));
         return "admin/types";
     }
@@ -113,10 +115,11 @@ public class TypeController {
      * 删除逻辑
      */
     @GetMapping("/types/{id}/delete")
-    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public void delete(@PathVariable("id") Long id) {
         typeService.deleteType(id);
-        redirectAttributes.addFlashAttribute("message", "分类删除成功");
-        return "redirect:/admin/types";
+//        redirectAttributes.addFlashAttribute("message", "分类删除成功");
+//        return "redirect:/admin/types";
     }
 
 }

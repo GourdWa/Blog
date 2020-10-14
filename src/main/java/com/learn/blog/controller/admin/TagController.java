@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -39,7 +40,9 @@ public class TagController {
      */
     @GetMapping("/tags")
     public String tags(@PageableDefault(size = 6, sort = {"id"}, direction = Sort.Direction.DESC)
-                               Pageable pageable, Model model) {
+                               Pageable pageable, Model model, @RequestParam(name = "deleteName", required = false) String deleteName) {
+        if (deleteName != null && !"".equals(deleteName))
+            model.addAttribute("message", "成功删除标签【" + deleteName + "】");
         model.addAttribute("page", tagService.listTag(pageable));
         return "admin/tags";
     }
@@ -123,7 +126,7 @@ public class TagController {
      */
     @GetMapping("/tags/{id}/delete")
     @ResponseBody
-    public void delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public void delete(@PathVariable Long id) {
         tagService.deleteTag(id);
     }
 }

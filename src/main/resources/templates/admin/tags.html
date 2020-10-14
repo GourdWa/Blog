@@ -55,7 +55,7 @@
         <!--这种注释，thymeleaf可以识别-->
         <!--/*/
         <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
-            <i class="close icon"></i>
+
             <div class="header">提示：</div>
             <p th:text="${message}">恭喜，操作成功！</p>
         </div>
@@ -79,7 +79,7 @@
                        class="ui mini teal basic button">编辑</a>
                     <!--                    <a href="#" th:href="@{/admin/tags/{id}/delete(id=${tag.id})}"-->
                     <!--                       class="ui mini red basic button">删除</a>-->
-                    <a href="#" onclick="deleteFunc(this)" th:attr="data-tagid=${tag.id},data-tagname=${tag.name}"
+                    <a href="#" onclick="deleteTag(this)" th:attr="data-tagid=${tag.id},data-tagname=${tag.name}"
                        class="ui mini red basic button">删除</a>
                 </td>
             </tr>
@@ -166,7 +166,7 @@
     // 提示框自动消失
     $('.message').delay(2000).hide("slow");
 
-    function deleteFunc(obj) {
+    function deleteTag(obj) {
         tagid = $(obj).data("tagid")
         tagname = $(obj).data("tagname")
         if (confirm("确认删除【" + tagname + "】吗?")) {
@@ -176,7 +176,7 @@
                     // console.log("删除成功，为" + tagid)
                     // console.log("删除成功，为" + result)
                     //重定向
-                    window.location.href = "/admin/tags";
+                    window.location.href = "/admin/tags?deleteName="+tagname;
                 }
             })
         }
