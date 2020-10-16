@@ -79,7 +79,8 @@
                        class="ui mini teal basic button">编辑</a>
                     <!--                    <a href="#" th:href="@{/admin/tags/{id}/delete(id=${tag.id})}"-->
                     <!--                       class="ui mini red basic button">删除</a>-->
-                    <a href="#" onclick="deleteTag(this)" th:attr="data-tagid=${tag.id},data-tagname=${tag.name}"
+                    <a href="#" onclick="deleteTag(this)"
+                       th:attr="data-tagid=${tag.id},data-tagname=${tag.name},data-pageno=${page.number},data-pagesize=${page.content.size()}"
                        class="ui mini red basic button">删除</a>
                 </td>
             </tr>
@@ -167,16 +168,26 @@
     $('.message').delay(2000).hide("slow");
 
     function deleteTag(obj) {
-        tagid = $(obj).data("tagid")
-        tagname = $(obj).data("tagname")
+        const tagid = $(obj).data("tagid");
+        const tagname = $(obj).data("tagname")
+        const pageno = $(obj).data("pageno")
+        const pagesize = $(obj).data("pagesize")
+        // 增加删除后页面的跳转
+        //如果删除前页面还有标签则删除后返回删除前标签；如果删除后页面没有标签，则返回其前一页的标签
+        let redirectUrl;
+        if (pageno > 0) {
+            if (pagesize == 1) {
+                redirectUrl = "/admin/tags?deleteName=" + encodeURIComponent(tagname) + "&&page=" + (pageno - 1);
+            } else
+                redirectUrl = "/admin/tags?deleteName=" + encodeURIComponent(tagname) + "&&page=" + pageno;
+        } else
+            redirectUrl = "/admin/tags?deleteName=" + encodeURIComponent(tagname)
         if (confirm("确认删除【" + tagname + "】吗?")) {
             $.ajax({
                 url: "/admin/tags/" + tagid + "/delete",
                 success: function (result) {
-                    // console.log("删除成功，为" + tagid)
-                    // console.log("删除成功，为" + result)
                     //重定向
-                    window.location.href = "/admin/tags?deleteName="+tagname;
+                    window.location.href = redirectUrl;
                 }
             })
         }

@@ -72,6 +72,12 @@ public class BlogServiceImpl implements BlogService {
         if (blog1 == null) {
             throw new NotFoundException("该博客不存在");
         }
+        //设置博客的更新时间和创建时间
+        blog.setUpdateTime(new Date());
+        blog.setCreateTime(blog1.getCreateTime());
+        blog.setViews(blog1.getViews());
+        blog.setGoodJob(blog1.getGoodJob());
+
         BeanUtils.copyProperties(blog, blog1);
         return blogMapper.save(blog1);
     }

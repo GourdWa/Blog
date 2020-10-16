@@ -42,7 +42,7 @@ public class TagController {
     public String tags(@PageableDefault(size = 6, sort = {"id"}, direction = Sort.Direction.DESC)
                                Pageable pageable, Model model, @RequestParam(name = "deleteName", required = false) String deleteName) {
         if (deleteName != null && !"".equals(deleteName))
-            model.addAttribute("message", "成功删除标签【" + deleteName + "】");
+            model.addAttribute("message", "【" + deleteName + "】删除成功");
         model.addAttribute("page", tagService.listTag(pageable));
         return "admin/tags";
     }

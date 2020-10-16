@@ -208,8 +208,21 @@ public class Blog {
         return tagIds;
     }
 
+
     public void setTagIds(String tagIds) {
         this.tagIds = tagIds;
+    }
+
+    public void initTagIds() {
+        if (this.tags != null && this.tags.size() > 0) {
+            StringBuilder ids = new StringBuilder();
+            for (Tag tag : tags) {
+                ids.append(tag.getId());
+                ids.append(",");
+            }
+            ids.deleteCharAt(ids.length() - 1);
+            this.tagIds = String.valueOf(ids);
+        }
     }
 
     @Override

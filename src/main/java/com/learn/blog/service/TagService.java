@@ -57,11 +57,16 @@ public interface TagService {
      * 获取所有的标签
      * @return
      */
-    List<Tag> list();
+    List<Tag> listTag();
 
     /**
      *根据ids查询出所有对应的标签
      *
      */
-    List<Tag> listTags(String ids);
+    List<Tag> listTag(String ids);
+    /**
+     * 检查标签是否存在，如果没有则保存
+     *
+     */
+
 }

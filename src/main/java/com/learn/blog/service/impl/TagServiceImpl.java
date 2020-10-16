@@ -5,6 +5,7 @@ import com.learn.blog.bean.Tag;
 import com.learn.blog.dao.TagMapper;
 import com.learn.blog.exception.NotFoundException;
 import com.learn.blog.service.TagService;
+import com.learn.blog.utils.CheckUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,25 +68,47 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> list() {
+    public List<Tag> listTag() {
         return tagMapper.findAll();
     }
 
 
     @Override
-    public List<Tag> listTags(String ids) {
+    public List<Tag> listTag(String ids) {
         return tagMapper.findAllById(convertToList(ids));
     }
 
     //解析传递过来的ids
+    @Transactional
     private List<Long> convertToList(String ids) {
         List<Long> list = new ArrayList<>();
         if (ids != null && !"".equals(ids)) {
             String[] idarray = ids.split(",");
             for (int i = 0; i < idarray.length; i++) {
-                list.add(new Long(idarray[i]));
+                if (CheckUtil.checkNum(idarray[i])) {
+                    //如果全部是数字,查看是否是数据库中的标签
+                    Tag one = tagMapper.getOne(Long.valueOf(idarray[i]));
+                    if (one != null) {
+                        //如果是则将id加入ids
+                        list.add(new Long(idarray[i]));
+                    } else {
+                        //否在作为新标签插入
+                        Tag newtTag = new Tag();
+                        newtTag.setName(idarray[i]);
+                        tagMapper.save(newtTag);
+                        list.add(newtTag.getId());
+                    }
+                } else {
+                    //如果包含非数字，说明是新标签，直接插入即可
+                    Tag newtTag = new Tag();
+                    newtTag.setName(idarray[i]);
+                    tagMapper.save(newtTag);
+                    list.add(newtTag.getId());
+                }
             }
         }
         return list;
     }
+
+
 }

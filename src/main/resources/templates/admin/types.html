@@ -77,9 +77,10 @@
                     <!--用type.id替换{id}-->
                     <a href="#" th:href="@{/admin/types/{id}/input(id=${type.id})}"
                        class="ui mini teal basic button">编辑</a>
-<!--                    <a href="#" th:href="@{/admin/types/{id}/delete(id=${type.id})}"-->
-<!--                       class="ui mini red basic button">删除</a>-->
-                    <a href="#" onclick="deleteType(this)" th:attr="data-typeid=${type.id},data-typename=${type.name}"
+                    <!--                    <a href="#" th:href="@{/admin/types/{id}/delete(id=${type.id})}"-->
+                    <!--                       class="ui mini red basic button">删除</a>-->
+                    <a href="#" onclick="deleteType(this)"
+                       th:attr="data-typeid=${type.id},data-typename=${type.name},data-pageno=${page.number},data-pagesize=${page.content.size()}"
                        class="ui mini red basic button">删除</a>
                 </td>
             </tr>
@@ -167,15 +168,26 @@
     $('.message').delay(2000).hide("slow");
 
     function deleteType(obj) {
-        typeid = $(obj).data("typeid")
-        typeame = $(obj).data("typename")
-        if (confirm("确认删除【" + typeame + "】吗?")) {
+        const typeid = $(obj).data("typeid")
+        const typename = $(obj).data("typename")
+        const pageno = $(obj).data("pageno")
+        const pagesize = $(obj).data("pagesize")
+        // 优化删除后页面的跳转
+        //如果删除前页面还有类型则删除后返回删除前标签；如果删除后页面没有类型，则返回其前一页的类型
+        let redirectUrl;
+        if (pageno > 0) {
+            if (pagesize == 1) {
+                redirectUrl = "/admin/types?deleteName=" + encodeURIComponent(typename) + "&&page=" + (pageno - 1);
+            } else
+                redirectUrl = "/admin/types?deleteName=" + encodeURIComponent(typename) + "&&page=" + pageno;
+        } else
+            redirectUrl = "/admin/types?deleteName=" + encodeURIComponent(typename)
+        if (confirm("确认删除【" + typename + "】吗?")) {
             $.ajax({
                 url: "/admin/types/" + typeid + "/delete",
                 success: function (result) {
                     //重定向
-                    window.location.href = "/admin/types?deleteName=" + typeame;
-                    // console.log("成功删除"+tagname)
+                    window.location.href = redirectUrl;
                 }
             })
         }
