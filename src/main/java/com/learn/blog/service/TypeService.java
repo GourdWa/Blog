@@ -14,6 +14,7 @@ import java.util.List;
 public interface TypeService {
     /**
      * 新增类型
+     *
      * @param type
      * @return
      */
@@ -21,6 +22,7 @@ public interface TypeService {
 
     /**
      * 根据id获得类型
+     *
      * @param id
      * @return
      */
@@ -29,10 +31,11 @@ public interface TypeService {
     /**
      * 通过名称获得Type
      */
-        Type getTypeByName(String name);
+    Type getTypeByName(String name);
 
     /**
      * 分页形式，获得所有类型
+     *
      * @param pageable
      * @return
      */
@@ -40,11 +43,20 @@ public interface TypeService {
 
     /**
      * 获得所有类型
+     *
      * @return
      */
     List<Type> list();
+
+    /**
+     *主要用于前台显示
+     */
+
+    List<Type> listTypeTop(Integer size);
+
     /**
      * 更新类型
+     *
      * @param id
      * @param type
      * @return
@@ -53,6 +65,7 @@ public interface TypeService {
 
     /**
      * 删除一个类型
+     *
      * @param id
      */
     void deleteType(Long id);

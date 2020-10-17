@@ -1,7 +1,11 @@
 package com.learn.blog.dao;
 
 import com.learn.blog.bean.Tag;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author Zixiang Hu
@@ -10,4 +14,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TagMapper extends JpaRepository<Tag,Long> {
     Tag findByName(String name);
+
+    @Query("select t from Tag t")
+    List<Tag> findTop(Pageable pageable);
 }

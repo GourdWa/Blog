@@ -2,7 +2,11 @@ package com.learn.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.learn.blog.bean.Type;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * @author Zixiang Hu
@@ -11,4 +15,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface TypeMapper extends JpaRepository<Type, Long> {
     Type findByName(String name);
+
+    @Query("select t from Type t")
+    List<Type> findTop(Pageable pageable);
+
 }

@@ -64,9 +64,13 @@ public interface TagService {
      *
      */
     List<Tag> listTag(String ids);
+
     /**
-     * 检查标签是否存在，如果没有则保存
-     *
+     * 主要用于前台显示，展示出引用最多的前几个tag
+     * @param size
+     * @return
      */
+    List<Tag> listTagTop(Integer size);
+
 
 }
