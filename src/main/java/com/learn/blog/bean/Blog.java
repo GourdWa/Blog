@@ -24,6 +24,9 @@ public class Blog {
     private String firstPicture;
     //原创、转载、翻译
     private String flag;
+    //博客描述，主要用于前端展示用
+    private String description;
+    //浏览数
     private Integer views;
     //点赞数
     private Integer goodJob;
@@ -213,6 +216,15 @@ public class Blog {
         this.tagIds = tagIds;
     }
 
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void initTagIds() {
         if (this.tags != null && this.tags.size() > 0) {
             StringBuilder ids = new StringBuilder();
@@ -233,6 +245,7 @@ public class Blog {
                 ", content='" + content + '\'' +
                 ", firstPicture='" + firstPicture + '\'' +
                 ", flag='" + flag + '\'' +
+                ", description='" + description + '\'' +
                 ", views=" + views +
                 ", goodJob=" + goodJob +
                 ", appreciation=" + appreciation +

@@ -57,11 +57,11 @@
         <form id="blog-form" action="#" method="post" class="ui form" th:action="@{/admin/blogs/update}">
             <!--是否发布的隐含域-->
             <input type="hidden" name="published">
-            <input type="hidden" name="id" th:value="${blog.id}" >
+            <input type="hidden" name="id" th:value="${blog.id}">
             <div class="required field">
                 <div class="ui left labeled input">
                     <div class="ui selection compact teal basic dropdown label">
-                        <input type="hidden" value="原创" name="flag" th:value="${blog.flag}" >
+                        <input type="hidden" value="原创" name="flag" th:value="${blog.flag}">
                         <i class="dropdown icon"></i>
                         <div class="text">原创</div>
                         <div class="menu">
@@ -77,7 +77,8 @@
             <div class="required field">
                 <!-- 集成MD编辑器 -->
                 <div id='md-content' style="z-index: 1 !important;">
-                    <textarea placeholder="博客内容" name="content" style="display: none;" th:text="${blog.content}"></textarea>
+                    <textarea placeholder="博客内容" name="content" style="display: none;"
+                              th:text="${blog.content}"></textarea>
                 </div>
             </div>
 
@@ -125,28 +126,36 @@
 
             </div>
 
+            <div class="required field">
+                <textarea name="description" id="description" placeholder="博客描述..." th:text="${blog.description}" maxlength="200"></textarea>
+            </div>
+
             <div class="inline fields">
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="recommend" name="recommend" class="hidden" th:checked="${blog.recommend}">
+                        <input type="checkbox" id="recommend" name="recommend" class="hidden"
+                               th:checked="${blog.recommend}">
                         <label for="recommend">推荐</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="shareStatement" name="shareStatement" class="hidden" th:checked="${blog.shareStatement}">
+                        <input type="checkbox" id="shareStatement" name="shareStatement" class="hidden"
+                               th:checked="${blog.shareStatement}">
                         <label for="shareStatement">转载声明</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="appreciation" name="appreciation" class="hidden" th:checked="${blog.appreciation}">
+                        <input type="checkbox" id="appreciation" name="appreciation" class="hidden"
+                               th:checked="${blog.appreciation}">
                         <label for="appreciation">赞赏</label>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" id="commentabled" name="commentabled" class="hidden" th:checked="${blog.commentabled}">
+                        <input type="checkbox" id="commentabled" name="commentabled" class="hidden"
+                               th:checked="${blog.commentabled}">
                         <label for="commentabled">评论</label>
                     </div>
                 </div>
@@ -277,6 +286,13 @@
                 rules: [{
                     type: 'empty',
                     prompt: '请输入首图地址'
+                }]
+            },
+            description: {
+                identifier: 'description',
+                rules: [{
+                    type: 'empty',
+                    prompt: '博客描述不能为空'
                 }]
             }
         }
