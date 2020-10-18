@@ -6,6 +6,7 @@ import com.learn.blog.dao.BlogMapper;
 import com.learn.blog.exception.NotFoundException;
 import com.learn.blog.ov.BlogQuery;
 import com.learn.blog.service.BlogService;
+import com.learn.blog.utils.MarkDownUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,20 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogMapper.getOne(id);
+        if (blog == null) {
+            throw new NotFoundException("博客不存在");
+        }
+        Blog newBlog = new Blog();
+        BeanUtils.copyProperties(blog, newBlog);
+        String content = newBlog.getContent();
+        String htmlContent = MarkDownUtil.markdownToHtmlExtensions(content);
+        newBlog.setContent(htmlContent);
+        return newBlog;
+    }
+
+    @Override
     public Page<Blog> listBlog(Pageable pageable, BlogQuery blogQuery) {
         return blogMapper.findAll((Specification<Blog>) (root, query, criteriaBuilder) -> {
             ArrayList<Predicate> predicates = new ArrayList<>();
@@ -60,6 +75,12 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> listBlog(Pageable pageable) {
         return blogMapper.findAll(pageable);
+    }
+
+    @Override
+    public Page<Blog> listBlog(Pageable pageable, String query) {
+
+        return blogMapper.findByQuery(pageable, query);
     }
 
     @Transactional

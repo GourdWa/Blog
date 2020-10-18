@@ -20,6 +20,10 @@ public interface BlogService {
      * @return
      */
     Blog getBlog(Long id);
+    /**
+     * 前台展示的Blog获取
+     */
+    Blog getAndConvert(Long id);
 
     /**
      * 用于后台查询并分页展示Blog
@@ -37,6 +41,10 @@ public interface BlogService {
      */
     Page<Blog> listBlog(Pageable pageable);
 
+    /**
+     * 博客前端查询
+     */
+    Page<Blog> listBlog(Pageable pageable, String query);
     /**
      * 新增Blog
      *

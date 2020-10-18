@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Zixiang Hu
@@ -34,15 +36,28 @@ public class IndexController {
                         Model model) {
         //获得分页的数据
         model.addAttribute("page", blogService.listBlog(pageable));
+        //列举出博客引用数最多的前几个类型
         model.addAttribute("types", typeService.listTypeTop(6));
         model.addAttribute("tags", tagService.listTagTop(10));
         model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(8));
         return "index";
     }
 
-    @GetMapping("/blog")
-    public String blog() {
-        System.out.println("-----blog-----");
-        return "admin/login";
+    @GetMapping("/blog/{id}")
+    public String blog(@PathVariable(name = "id") Long id, Model model) {
+        model.addAttribute("blog", blogService.getAndConvert(id));
+        return "blog";
+    }
+
+    /**
+     * 博客查询，主要是查询博客标题和内容
+     */
+    @PostMapping("/search")
+    public String search(@PageableDefault(size = 8, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
+                         Model model, @RequestParam(name = "query") String query) {
+        //前端展示的查询
+        model.addAttribute("page", blogService.listBlog(pageable, "%" + query + "%"));
+        model.addAttribute("query", query);
+        return "search";
     }
 }
