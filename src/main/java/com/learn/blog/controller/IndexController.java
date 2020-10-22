@@ -1,5 +1,6 @@
 package com.learn.blog.controller;
 
+import com.learn.blog.bean.Blog;
 import com.learn.blog.exception.NotFoundException;
 import com.learn.blog.ov.BlogQuery;
 import com.learn.blog.service.BlogService;
@@ -11,10 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Zixiang Hu
@@ -45,6 +43,7 @@ public class IndexController {
 
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable(name = "id") Long id, Model model) {
+        //需要将博客的内容转换为html
         model.addAttribute("blog", blogService.getAndConvert(id));
         return "blog";
     }
@@ -60,4 +59,13 @@ public class IndexController {
         model.addAttribute("query", query);
         return "search";
     }
+
+    @GetMapping("/updateGoodjob")
+    @ResponseBody
+    public void goodJob(@RequestParam(name = "id") Long id) {
+        Blog blog = blogService.getBlog(id);
+        blog.setGoodJob(blog.getGoodJob() + 1);
+        blogService.updateGoodJob(blog);
+    }
+
 }

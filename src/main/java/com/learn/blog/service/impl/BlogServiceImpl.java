@@ -111,6 +111,11 @@ public class BlogServiceImpl implements BlogService {
         return blogMapper.save(blog1);
     }
 
+    @Override
+    public Blog updateGoodJob(Blog blog) {
+        return blogMapper.save(blog);
+    }
+
     @Transactional
     @Override
     public void deleteBlog(Long id) {

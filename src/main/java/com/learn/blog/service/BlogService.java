@@ -63,6 +63,12 @@ public interface BlogService {
     Blog updateBlog(Long id, Blog blog);
 
     /**
+     * 更新点赞数
+     */
+
+    Blog updateGoodJob(Blog blog);
+
+    /**
      * 删除Blog
      *
      * @param id

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
     <!-- 引入自定义的CSS样式 -->
     <link rel="stylesheet" href="../static/css/me.css">
+    <link rel="icon" th:href="@{/favicon.ico}">
     <title>首页</title>
 </head>
 
@@ -58,7 +59,7 @@
                 <!-- content -->
                 <div class="ui attached segment">
                     <div class="ui padded  vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
-                        <div class="ui middle aligned mobile reversed stackable grid" >
+                        <div class="ui middle aligned mobile reversed stackable grid">
                             <div class="eleven wide column">
                                 <h3 class="ui header"><a th:href="@{/blog/{id}(id=${blog.id})}" target="_blank"
                                                          class="m-black"
