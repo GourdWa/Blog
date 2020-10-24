@@ -576,23 +576,61 @@
                     <div th:fragment="commentList">
                         <div class="ui threaded comments" style="max-width: 100%">
                             <h3 class="ui dividing header">评论</h3>
-                            <div class="comment">
+                            <div class="comment" th:each="comment : ${comments}">
                                 <a class="avatar">
-                                    <img src="https://picsum.photos/id/1062/100/100">
+                                    <img src="https://picsum.photos/id/1062/100/100" th:src="@{${comment.avatar}}">
                                 </a>
                                 <div class="content">
-                                    <a class="author">Matt</a>
+                                    <a class="author">
+                                        <span th:text="${comment.nickname}">Matt</span>
+                                        <div class="ui mini basic teal left pointing label m-padded-mini"
+                                             th:if="${comment.adminComment}">博主
+                                        </div>
+                                    </a>
                                     <div class="metadata">
-                                        <span class="date">今天下午 5:42</span>
+                                        <span class="date"
+                                              th:text="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}">今天下午 5:42</span>
                                     </div>
-                                    <div class="text">太赞了！</div>
+                                    <div class="text" th:text="${comment.content}">太赞了！</div>
                                     <div class="actions">
                                         <!--点击回复事件-->
                                         <a class="reply" data-commentid="1" data-commentnickname="Matt"
-                                           onclick="reply(this)">Reply</a>
+                                           th:attr="data-commentid=${comment.id},data-commentnickname=${comment.nickname}"
+                                           onclick="reply(this)">回复</a>
+                                    </div>
+                                </div>
+                                <!--嵌套的子评论-->
+                                <!--如果有子评论才显示-->
+                                <div class="comments" th:if="${#arrays.length(comment.replyComments)}>0">
+                                    <div class="comment" th:each="reply : ${comment.replyComments}">
+                                        <a class="avatar">
+                                            <img src="https://picsum.photos/id/1062/100/100"
+                                                 th:src="@{${reply.avatar}}">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author"><span th:text="${reply.nickname}">Matt</span>
+                                                <div class="ui mini basic teal left pointing label m-padded-mini"
+                                                     th:if="${reply.adminComment}">博主
+                                                </div>
+                                                <span th:text="|@ ${reply.parentComment.nickname}|"
+                                                      class="m-teal">@小白</span>
+                                            </a>
+                                            <div class="metadata">
+                                        <span class="date"
+                                              th:text="${#dates.format(reply.createTime,'yyyy-MM-dd HH:mm:ss')}">今天下午 5:42</span>
+                                            </div>
+                                            <div class="text" th:text="${reply.content}">太赞了！</div>
+                                            <div class="actions">
+                                                <!--点击回复事件-->
+                                                <a class="reply" data-commentid="1" data-commentnickname="Matt"
+                                                   th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}"
+                                                   onclick="reply(this)">回复</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!--/*-->
                             <div class="comment">
                                 <a class="avatar">
                                     <img src="https://picsum.photos/id/1062/100/100">
@@ -606,7 +644,7 @@
                                         <p>這對我的研究是非常有用.謝謝!</p>
                                     </div>
                                     <div class="actions">
-                                        <a class="reply">Reply</a>
+                                        <a class="reply">回复</a>
                                     </div>
                                 </div>
                                 <div class="comments">
@@ -621,7 +659,7 @@
                                             </div>
                                             <div class="text">艾略特你永远是多么正确 :)</div>
                                             <div class="actions">
-                                                <a class="reply">Reply</a>
+                                                <a class="reply">回复</a>
                                             </div>
                                         </div>
                                     </div>
@@ -638,10 +676,11 @@
                                     </div>
                                     <div class="text">老兄，这太棒了。非常感谢。</div>
                                     <div class="actions">
-                                        <a class="reply">Reply</a>
+                                        <a class="reply">回复</a>
                                     </div>
                                 </div>
                             </div>
+                            <!--*/-->
                         </div>
                     </div>
 
@@ -658,13 +697,15 @@
                         <div class="field m-mobile-wide m-margin-bottom-small">
                             <div class="ui left icon  input">
                                 <i class="user  icon"></i>
-                                <input type="text" name='nickname' placeholder="姓名">
+                                <input type="text" name='nickname' placeholder="姓名"
+                                       th:value="${session.user}!=null?${session.user.nickname}:''">
                             </div>
                         </div>
                         <div class="field m-mobile-wide m-margin-bottom-small">
                             <div class="ui left icon  input">
                                 <i class="mail icon"></i>
-                                <input type="text" name='email' placeholder="邮箱">
+                                <input type="text" name='email' placeholder="邮箱"
+                                       th:value="${session.user}!=null?${session.user.email}:''">
                             </div>
                         </div>
                         <div class="field m-mobile-wide m-margin-bottom-small">
@@ -871,6 +912,11 @@
             }
         }
     });
+    //当页面加载完成后，立即刷新评论区
+    $(function () {
+        $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"comments/6");
+    });
+
 
     //评论提交
     $("#commentpost-btn").click(function () {
@@ -878,6 +924,7 @@
         var boo = $('.ui.form').form('validate form')
         if (boo) {
             console.log("校验成功")
+            postData()
         } else {
             console.log("校验失败")
         }
@@ -893,7 +940,7 @@
             "content": $("[name='content']").val()
         }, function (responseTxt, statusTxt, xhr) {
             //提交留言后滚动到留言开始区域
-            $(window).scrollTo($('#comment-container'), 500);
+            // $(window).scrollTo($('#comment-container'), 500);
             clearContent();
         });
     }
@@ -903,6 +950,8 @@
         $("[name='content']").val('');
         $("[name='parentComment.id']").val(-1);
         $("[name='content']").attr("placeholder", "请输入评论信息...");
+        // $("[name='nickname']").val('')
+        // $("[name='email']").val('')
     }
 
     //留言回复方法

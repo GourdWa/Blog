@@ -40,6 +40,7 @@ public class BlogServiceImpl implements BlogService {
         return blogMapper.getOne(id);
     }
 
+    @Transactional
     @Override
     public Blog getAndConvert(Long id) {
         Blog blog = blogMapper.getOne(id);
@@ -51,6 +52,8 @@ public class BlogServiceImpl implements BlogService {
         String content = newBlog.getContent();
         String htmlContent = MarkDownUtil.markdownToHtmlExtensions(content);
         newBlog.setContent(htmlContent);
+        //更新浏览次数
+        blogMapper.updateViews(id);
         return newBlog;
     }
 
