@@ -35,6 +35,14 @@ public interface BlogService {
     Page<Blog> listBlog(Pageable pageable, BlogQuery blogQuery);
 
     /**
+     * 根据tagid分页查询博客
+     * @param pageable
+     * @param tagId
+     * @return
+     */
+    Page<Blog> listBlog(Pageable pageable, Long tagId);
+
+    /**
      * 主要用于前台无条件的分页展示
      * @param pageable
      * @return

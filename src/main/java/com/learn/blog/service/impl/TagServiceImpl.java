@@ -89,7 +89,7 @@ public class TagServiceImpl implements TagService {
 
     //解析传递过来的ids
     @Transactional
-    private List<Long> convertToList(String ids) {
+    public List<Long> convertToList(String ids) {
         List<Long> list = new ArrayList<>();
         if (ids != null && !"".equals(ids)) {
             String[] idarray = ids.split(",");
