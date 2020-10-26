@@ -40,8 +40,15 @@ public interface BlogService {
      * @param tagId
      * @return
      */
-    Page<Blog> listBlog(Pageable pageable, Long tagId);
+    Page<Blog> listBlogByTagId(Pageable pageable, Long tagId);
 
+    /**
+     * 根据tagid分页查询博客
+     * @param pageable
+     * @param typeId
+     * @return
+     */
+    Page<Blog> listBlogByTypeId(Pageable pageable, Long typeId);
     /**
      * 主要用于前台无条件的分页展示
      * @param pageable

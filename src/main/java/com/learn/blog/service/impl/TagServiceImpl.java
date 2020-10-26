@@ -1,7 +1,9 @@
 package com.learn.blog.service.impl;
 
 
+import com.learn.blog.bean.Blog;
 import com.learn.blog.bean.Tag;
+import com.learn.blog.bean.Type;
 import com.learn.blog.dao.TagMapper;
 import com.learn.blog.exception.NotFoundException;
 import com.learn.blog.service.TagService;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by limi on 2017/10/16.
@@ -84,7 +87,13 @@ public class TagServiceImpl implements TagService {
     public List<Tag> listTagTop(Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "blogs.size");
         Pageable pageable = PageRequest.of(0, size, sort);
-        return tagMapper.findTop(pageable);
+        List<Tag> tags = new ArrayList<>(tagMapper.findTop(pageable));
+        //只保存已经发表的博客
+        for (Tag tag : tags) {
+            List<Blog> blogs = tag.getBlogs().stream().filter(blog -> blog.isPublished()).collect(Collectors.toList());
+            tag.setBlogs(blogs);
+        }
+        return tags;
     }
 
     //解析传递过来的ids

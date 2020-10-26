@@ -73,20 +73,46 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Page<Blog> listBlog(Pageable pageable, Long tagId) {
+    public Page<Blog> listBlogByTagId(Pageable pageable, Long tagId) {
 
         return blogMapper.findAll(new Specification<Blog>() {
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                ArrayList<Predicate> predicates = new ArrayList<>();
                 Join<Object, Object> join = root.join("tags");
-                return criteriaBuilder.equal(join.get("id"), tagId);
+                predicates.add(criteriaBuilder.equal(join.get("id"), tagId));
+                predicates.add(criteriaBuilder.equal(root.get("published"), true));
+                query.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
+            }
+        }, pageable);
+    }
+
+    @Override
+    public Page<Blog> listBlogByTypeId(Pageable pageable, Long typeId) {
+        return blogMapper.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                ArrayList<Predicate> predicates = new ArrayList<>();
+                predicates.add(criteriaBuilder.equal(root.get("type").get("id"), typeId));
+                predicates.add(criteriaBuilder.equal(root.get("published"), true));
+                query.where(predicates.toArray(new Predicate[predicates.size()]));
+                return null;
             }
         }, pageable);
     }
 
     @Override
     public Page<Blog> listBlog(Pageable pageable) {
-        return blogMapper.findAll(pageable);
+        //只返回已经发布的博客
+        Page<Blog> blogs = blogMapper.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("published"), true);
+            }
+        }, pageable);
+        return blogs;
+//        return blogMapper.findAll(pageable);
     }
 
     @Override
@@ -138,6 +164,13 @@ public class BlogServiceImpl implements BlogService {
     public List<Blog> listRecommendBlogTop(Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
         Pageable pageable = PageRequest.of(0, size, sort);
-        return blogMapper.findTop(pageable);
+        List<Blog> blogList = blogMapper.findTop(pageable);
+        List<Blog> blogs = new ArrayList<>();
+        for (Blog blog : blogList) {
+            if (blog.isPublished())
+                blogs.add(blog);
+        }
+
+        return blogs;
     }
 }

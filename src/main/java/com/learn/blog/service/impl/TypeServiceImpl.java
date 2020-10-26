@@ -1,5 +1,6 @@
 package com.learn.blog.service.impl;
 
+import com.learn.blog.bean.Blog;
 import com.learn.blog.bean.Type;
 import com.learn.blog.dao.TypeMapper;
 import com.learn.blog.exception.NotFoundException;
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Zixiang Hu
@@ -61,7 +64,13 @@ public class TypeServiceImpl implements TypeService {
     public List<Type> listTypeTop(Integer size) {
         Sort sort = Sort.by(Sort.Direction.DESC, "blogs.size");
         Pageable pageable = PageRequest.of(0, size, sort);
-        return typeMapper.findTop(pageable);
+        List<Type> types = new ArrayList<>(typeMapper.findTop(pageable)) ;
+        //只保存已经发表的博客
+        for (Type type : types) {
+            List<Blog> blogs = type.getBlogs().stream().filter(blog -> blog.isPublished()).collect(Collectors.toList());
+            type.setBlogs(blogs);
+        }
+        return types;
     }
 
     @Transactional

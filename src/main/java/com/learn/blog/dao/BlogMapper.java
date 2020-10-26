@@ -21,7 +21,7 @@ public interface BlogMapper extends JpaRepository<Blog, Long>, JpaSpecificationE
     @Query("select b from Blog b where b.recommend=true")
     List<Blog> findTop(Pageable pageable);
 
-    @Query("select b from Blog b where b.title like ?1 or b.content like ?1")
+    @Query("select b from Blog b where  b.published=true and (b.title like ?1 or b.content like ?1)")
     Page<Blog> findByQuery(Pageable pageable, String query);
 
     //更新浏览次数
