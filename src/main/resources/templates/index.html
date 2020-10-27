@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
                                     <div class="right aligned five wide column">
-                                        <a href="#" target="_blank"
+                                        <a href="#" th:href="@{/types/{id}(id=${blog.type.id})}"
                                            class="ui teal basic label m-padded-mini m-text-thin"
                                            th:text="${blog.type.name}">经典名著</a>
                                     </div>
@@ -135,14 +135,14 @@
                         <div class="ui two column grid">
                             <div class="column"><i class="idea icon"></i>分类</div>
                             <div class="column right aligned">
-                                <a href="#" target="_blank" class="m-opacity-mini">more <i
+                                <a href="#" th:href="@{/types/-1}" class="m-opacity-mini">more <i
                                         class="icon angle double right"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="ui teal segment">
                         <div class="ui fluid vertical menu">
-                            <a href="#" class="item" th:each="type : ${types}">
+                            <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type : ${types}">
                                 <span th:text="${type.name}">侦探</span>
                                 <div class="ui teal basic left pointing label"
                                      th:text="${#arrays.length(type.blogs)}">xx
@@ -157,14 +157,14 @@
                         <div class="ui two column grid">
                             <div class="column"><i class="tags icon"></i>标签</div>
                             <div class="column right aligned">
-                                <a href="#" target="_blank" class="m-opacity-mini">more <i
+                                <a href="#" th:href="@{/tags/-1}" class="m-opacity-mini">more <i
                                         class="icon angle double right"></i></a>
                             </div>
                         </div>
                     </div>
                     <!-- 标签明细 -->
                     <div class="ui teal segment ">
-                        <a href="#" target="_blank" class="ui teal basic left pointing label m-margin-tb-tiny"
+                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal basic left pointing label m-margin-tb-tiny"
                            th:each="tag : ${tags}">
                             <span th:text="${tag.name}">古诗</span>
                             <div class="detail" th:text="${#arrays.length(tag.blogs)}">xx</div>
