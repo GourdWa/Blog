@@ -43,8 +43,11 @@ public class IndexController {
 
     @GetMapping("/blog/{id}")
     public String blog(@PathVariable(name = "id") Long id, Model model) {
-        //需要将博客的内容转换为html
-        model.addAttribute("blog", blogService.getAndConvert(id));
+        Blog blog = blogService.getAndConvert(id);
+        //后台查验，是否该博客已经发布
+        if (blog.isPublished())
+            //需要将博客的内容转换为html
+            model.addAttribute("blog", blogService.getAndConvert(id));
         return "blog";
     }
 

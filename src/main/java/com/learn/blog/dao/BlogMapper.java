@@ -29,4 +29,12 @@ public interface BlogMapper extends JpaRepository<Blog, Long>, JpaSpecificationE
     @Modifying
     @Query("update Blog b set b.views=b.views+1 where b.id=?1")
     int updateViews(Long id);
+
+    //返回发布过博客的年份
+    @Query("select function('date_format',b.createTime,'%Y') as year from Blog b where b.published=true " +
+            "group by function('date_format',b.createTime,'%Y') order by year desc")
+    List<String> findGroupByYear();
+
+    @Query("select b from Blog b where function('date_format',b.createTime,'%Y') = ?1 and b.published=true")
+    List<Blog> findByYear(String year);
 }

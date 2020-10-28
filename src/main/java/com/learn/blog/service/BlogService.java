@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Zixiang Hu
@@ -20,6 +21,7 @@ public interface BlogService {
      * @return
      */
     Blog getBlog(Long id);
+
     /**
      * 前台展示的Blog获取
      */
@@ -36,6 +38,7 @@ public interface BlogService {
 
     /**
      * 根据tagid分页查询博客
+     *
      * @param pageable
      * @param tagId
      * @return
@@ -44,13 +47,16 @@ public interface BlogService {
 
     /**
      * 根据tagid分页查询博客
+     *
      * @param pageable
      * @param typeId
      * @return
      */
     Page<Blog> listBlogByTypeId(Pageable pageable, Long typeId);
+
     /**
      * 主要用于前台无条件的分页展示
+     *
      * @param pageable
      * @return
      */
@@ -60,6 +66,7 @@ public interface BlogService {
      * 博客前端查询
      */
     Page<Blog> listBlog(Pageable pageable, String query);
+
     /**
      * 新增Blog
      *
@@ -95,4 +102,10 @@ public interface BlogService {
      */
 
     List<Blog> listRecommendBlogTop(Integer size);
+
+    /**
+     * 对已发布的博客进行归档
+     */
+    Map<String, List<Blog>> archiveBlog();
+
 }

@@ -100,6 +100,15 @@
                                            th:text="${blog.type.name}">经典名著</a>
                                     </div>
                                 </div>
+                                <!--在每个博客的下面显示它的标签-->
+                                <div class="row">
+                                    <div class="column">
+                                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}"
+                                           th:each="tag : ${blog.tags}"
+                                           th:text="${tag.name}"
+                                           class="ui basic teal label m-padded-mini m-text-thin">书籍</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="five wide column">
                                 <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
@@ -164,7 +173,8 @@
                     </div>
                     <!-- 标签明细 -->
                     <div class="ui teal segment ">
-                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal basic left pointing label m-margin-tb-tiny"
+                        <a href="#" th:href="@{/tags/{id}(id=${tag.id})}"
+                           class="ui teal basic left pointing label m-margin-tb-tiny"
                            th:each="tag : ${tags}">
                             <span th:text="${tag.name}">古诗</span>
                             <div class="detail" th:text="${#arrays.length(tag.blogs)}">xx</div>

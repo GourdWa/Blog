@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Zixiang Hu
@@ -172,5 +170,16 @@ public class BlogServiceImpl implements BlogService {
         }
 
         return blogs;
+    }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogMapper.findGroupByYear();
+        Map<String, List<Blog>> map = new LinkedHashMap<>();
+        for (String year : years) {
+            List<Blog> blogs = blogMapper.findByYear(year);
+            map.put(year, blogs);
+        }
+        return map;
     }
 }
