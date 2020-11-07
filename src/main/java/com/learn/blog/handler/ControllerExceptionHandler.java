@@ -46,7 +46,7 @@ public class ControllerExceptionHandler {
         modelAndView.addObject("url", request.getRequestURL());
         modelAndView.addObject("exception", ex);
         //设置返回的页面
-        modelAndView.setViewName("/error/error");
+        modelAndView.setViewName("error/error");
         return modelAndView;
     }
 }

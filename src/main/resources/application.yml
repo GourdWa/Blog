@@ -12,6 +12,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+#    配置国际化的路径
+  messages:
+    basename: i18n.message
 #评论的头像
 comment:
   avatar: /images/avatar.png

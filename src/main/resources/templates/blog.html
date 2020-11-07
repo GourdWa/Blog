@@ -45,7 +45,7 @@
 </nav>
 <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++中间内容+++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 <!-- animated fadeIn动画效果 -->
-<div class="m-padded-tb-big m-container-small animated pulse" id="waypoint">
+<div class="m-padded-tb-big m-container-small animated fadeInUp" id="waypoint">
     <div class="ui container">
         <div class="ui container">
             <!-- 头部区域 -->
@@ -569,7 +569,7 @@
                     </div>
                 </div>
             </div>
-            <div class="ui bottom attached segment">
+            <div class="ui bottom attached segment" th:if="${blog.commentabled}">
                 <!-- 留言区域列表 -->
                 <div class="ui teal segment" id="comment-container">
                     <!--局部渲染-->
