@@ -68,10 +68,11 @@
             </div>
             <div class="three wide column">
                 <h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>
-                <div class="ui inverted link list">
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
-                    <a href="#" class="item">用户故事</a>
+                <div id="newblog-container">
+                    <div class="ui inverted link list" th:fragment="newbloglist">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item"
+                           th:each="blog : ${newBlogs}" th:text="${blog.title}">用户故事</a>
+                    </div>
                 </div>
             </div>
             <div class="three wide column">
@@ -113,6 +114,9 @@
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
     <!-- 引入markdown的js -->
     <script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+    <script>
+        $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog")
+    </script>
 </th:block>
 
 
